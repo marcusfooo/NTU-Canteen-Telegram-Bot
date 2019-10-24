@@ -9,6 +9,14 @@ import datetime
 TOKEN = '712534091:AAGDpXymyg8wlAMvd7QEWwi9umNsRsXxUlE'
 bot = telebot.TeleBot(TOKEN)
 
+# CatchOfTheDay inputs
+with open('catch.csv') as csv_catch:
+    csv_reader_catch = csv.reader(csv_catch, delimiter=',')
+    for row in csv_reader_catch:
+        catch_list = row
+    catch = catch_list[0]
+    catch_price = catch_list[1]
+
 
 # UI inputs
 shop_list = list(utils.today_store_func())
@@ -27,11 +35,35 @@ def start_command(message):
     bot.send_message(
         message.chat.id,
         "What would you like to do today :)\n\n" +
-        "1) Press /WaitingTime to calculate estimated queue time\n"+
-        "2) Press /MenuDisplay to see your menu of choice\n"+
-        "3) Press /OperatingHours to find the Operating hours for your desired shop\n"+
-        "4) Press /Voucher to get your daily voucher"
+        "1) Press /CatchOfTheDay to view today's Special Offer\n" +
+        "2) Press /WaitingTime to calculate estimated queue time\n"+
+        "3) Press /MenuDisplay to see your menu of choice\n"+
+        "4) Press /OperatingHours to find the Operating hours for your desired shop\n"+
+        "5) Press /Voucher to get your daily voucher\n"
+        "6) Press /AboutUs to know more about our team!\n"
     )
+
+
+# Function for today's special deal
+@bot.message_handler(commands=['CatchOfTheDay'])
+def waitingTime(message):
+    bot.send_chat_action(message.chat.id, 'typing')
+    print("Nice")
+    if catch == "Cheeseburger":
+        print("Ok")
+        bot.send_photo(message.chat.id, open('cheeseburger.jpg', 'rb'))
+        bot.send_message(message.chat.id, catch + " is at " + catch_price + " only for today!"
+                         + "\nPress /start to return to main menu")
+
+    elif catch == "Big Mac":  # send the appropriate image based on the reply to the "/getImage" command
+        bot.send_photo(message.chat.id, open('bigmac.jpg', 'rb'))
+        bot.send_message(message.chat.id, catch + " is at " + catch_price + " only for today!"
+                         + "\nPress /start to return to main menu")
+
+    elif catch == "KFC Pocket":  # send the appropriate image based on the reply to the "/getImage" command
+        bot.send_photo(message.chat.id, open('pocket.jpg', 'rb'))
+        bot.send_message(message.chat.id, catch + " is at " + catch_price + " only for today!"
+                         + "\nPress /start to return to main menu")
 
 
 # Call to calculate waiting time
@@ -105,6 +137,20 @@ def voucher(message):
                          + "\n\n Press /start to return to main menu")
 
 
+# Call for AboutUs function
+@bot.message_handler(commands=['AboutUs'])
+def voucher(message):
+    bot.send_chat_action(message.chat.id, 'typing')
+    bot.send_photo(message.chat.id, open('logo.jpg', 'rb'))
+    bot.send_message(message.chat.id, "goGrub is a project for AY19/20 CZ1003.\n\n"
+                     "Our team members consists of:"
+                     "\n - BCG Marcus Foo"
+                     "\n - CS Lim Wei Rong"
+                     "\n - CS Lim Xiao Wei"
+                     "\n\n The logo above was made using logomakr.com"
+                     + "\n\nPress /start to return to main menu")
+
+
 # Resets voucher claims for the day
 def datecsvchecker():
     now = datetime.datetime.now()
@@ -119,6 +165,7 @@ def datecsvchecker():
             else:
                 wrong_date = 1
 
+    # Reset date in csv file
     if wrong_date == 1:
         filename = 'claimedvoucher.csv'
         f = open(filename, "w+")
