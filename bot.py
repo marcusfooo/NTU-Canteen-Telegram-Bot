@@ -48,9 +48,7 @@ def start_command(message):
 @bot.message_handler(commands=['CatchOfTheDay'])
 def waitingTime(message):
     bot.send_chat_action(message.chat.id, 'typing')
-    print("Nice")
     if catch == "Cheeseburger":
-        print("Ok")
         bot.send_photo(message.chat.id, open('cheeseburger.jpg', 'rb'))
         bot.send_message(message.chat.id, catch + " is at " + catch_price + " only for today!"
                          + "\nPress /start to return to main menu")
