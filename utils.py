@@ -44,7 +44,6 @@ def today_store_func():
     for rows in stores_opened:
         if day == int(rows[0]):
             today_stores.append(rows[1])
-    print("The stores opened today are: " + ('[%s]' % ', '.join(map(str, today_stores))))
     return today_stores
 
 
@@ -57,7 +56,6 @@ def menu_func():
     for row in menu:
         if day == int(row[0]) and time_period == row[1] and store_choice == row[2]:
             store_menu.append({row[3]: row[4]})
-    print(store_menu)
 
 
 # Feature E: Waiting Time calculator
@@ -73,7 +71,6 @@ def waiting_time_func():
     calculated_time = queue_number * 5
     hours = calculated_time // 60
     minutes = calculated_time % 60
-    print("The estimated queue time is %s hours and %s minutes." % (hours, minutes))
 
 
 # Feature F: Prints store opening hours
