@@ -63,14 +63,18 @@ def MenuDisplay(message):
     bot.register_next_step_handler(store_choice, MenuFinder)#waits for user to reply then calls menufinder function
 
 def MenuFinder(message):
-    correctflag=0
     time_period = utils.time_check()
     store_menu = ""
+    correctflag=0
     for row in utils.menu:
         if utils.day == int(row[0]) and time_period == row[1] and message.text == row[2]:
             store_menu=store_menu+(row[3]+" "+row[4])
             correctflag = 1
-
+        else:
+            print(utils.day)
+            print(time_period)
+            print(message.text)
+            print("test")
     if correctflag==1:
         bot.send_message(message.chat.id, "Menu for today is \n" + store_menu)
     else:
@@ -86,14 +90,15 @@ def OperatingHours(message):
 def StoreFinder(message):
     user_store_choice=message.text
     openingDays=""
+    openflag=0
     for rows in utils.stores_opened:
         if user_store_choice == rows[1]:
             openingDays=openingDays+("\n"+user_store_choice + " is open on " + rows[2])
-            Openflag=1
+            openflag=1
         else:
             Closedflag=1
     print(openingDays)
-    if Openflag==1:
+    if openflag==1:
         bot.send_message(message.chat.id, openingDays)
     else:
         bot.send_message(message.chat.id,"Please input valid store name")
@@ -127,6 +132,13 @@ def voucher(message):
             csv_voucherwrite.write(user_name)
     elif(Claimedflag==1):
         bot.send_message(message.chat.id,"Voucher has been claimed")
+
+#def datecsvchecker()
+#now = datetime.datetime.now()
+#current_date = now.strftime('%d:%m:%Y')
+#    with open('claimedvoucher.csv') as csv_vouchers:
+#       csv_reader = csv.reader(csv_vouchers, delimiter=',')
+        
 
 bot.polling(none_stop=True)
 
