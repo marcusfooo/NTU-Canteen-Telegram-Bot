@@ -16,6 +16,7 @@ with open('catch.csv') as csv_catch:
         catch_list = row
     catch = catch_list[0]
     catch_price = catch_list[1]
+    csv_catch.close()
 
 
 # UI inputs
@@ -110,27 +111,22 @@ def operatingHours(message):
 # Call for voucher function
 @bot.message_handler(commands=['Voucher'])
 def voucher(message):
-    Claimedflag = 0
-    Unclaimedflag = 1
+    claimed_flag = 0
     bot.send_chat_action(message.chat.id, 'typing')
     user_name = str(message.from_user.username)#getusername
     datecsvchecker()
-    with open('claimedvoucher.csv') as csv_vouchers:
-        csv_reader = csv.reader(csv_vouchers, delimiter=',')
-        for row in csv_reader:
-            if user_name == row[0]:
-                Claimedflag = 1
-                Unclaimedflag = 0
-                break
-            else:
-                Unclaimedflag = 1
+    lines = [line.rstrip('\n') for line in open('claimedvoucher.txt')]
+    if user_name in lines:
+        claimed_flag = 1
 
-    if Unclaimedflag == 1:
-        randomno=random.randint(1,5)
-        bot.send_message(message.chat.id, "Your Voucher is "+ str(randomno)+ "\n\n Press /start to return to main menu")
-        with open('claimedvoucher.csv', 'a', newline='') as csv_voucherwrite:
-            csv_voucherwrite.write("\n" + user_name)
-    elif Claimedflag == 1:
+    if claimed_flag == 0:
+        random_no = random.randint(1,5)
+        bot.send_message(message.chat.id, "Your Voucher is "+ str(random_no) + "\n\n Press /start to return to main menu")
+        with open('claimedvoucher.txt', 'a', newline='') as csv_voucherwrite:
+            csv_voucherwrite.write('\n' + user_name)
+            csv_voucherwrite.close()
+
+    elif claimed_flag == 1:
         bot.send_message(message.chat.id, "You have already claimed your voucher for today."
                          + "\n\n Press /start to return to main menu")
 
@@ -153,24 +149,12 @@ def voucher(message):
 def datecsvchecker():
     now = datetime.datetime.now()
     current_date = now.strftime('%d:%m:%Y')
-    wrong_date = 0
-    with open('claimedvoucher.csv') as csv_vouchers:
-        csv_reader = csv.reader(csv_vouchers, delimiter=',')
-        for row in csv_reader:
-            if row[0] == current_date:
-                wrong_date = 0
-                break
-            else:
-                wrong_date = 1
-
-    # Reset date in csv file
-    if wrong_date == 1:
-        filename = 'claimedvoucher.csv'
-        f = open(filename, "w+")
-        f.close()
-        with open('claimedvoucher.csv', 'w', newline='') as csv_voucherwrite:
-            csv_voucherwrite.write(current_date)
-            csv_voucherwrite.write("\n")
+    lines = [line.rstrip('\n') for line in open('claimedvoucher.txt')]
+    if current_date in lines:
+        pass
+    else:
+        with open('claimedvoucher.txt', 'w+') as csv_voucherwrite:
+            csv_voucherwrite.write("\n" + current_date)
             csv_voucherwrite.close()
 
 
