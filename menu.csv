@@ -1,72 +1,73 @@
-0,Breakfast,MiniWok,Chicken Rice,$4.00 
-0,Lunch,MiniWok,Cereal Prawn,$5.00 
-0,Dinner,MiniWok,Sweet and Sour Pork Rice,$5.50 
-0,Lunch,Mcdonalds,Big Mac,$7.00 
-0,Dinner,Mcdonalds,McChicken,$3.00 
-0,Breakfast,KFC,Blueberry Pancake,$3.95 
-0,Lunch,KFC,BBQ Pockett,$5.30 
-0,Dinner,KFC,Zinger,$5.30 
-0,Breakfast,The SandWich Guys,Buttered Corn,$2.50 
-0,Lunch,The SandWich Guys,BBQ Pulled Pork,$6.00 
-1,Breakfast,MiniWok,Pork Porridge,$3.50 
-1,Lunch,MiniWok,Hor Fun,$5.30 
-1,Dinner,MiniWok,Chicken Feet,$3.20 
-1,Breakfast,KFC,Chicken Porridge,$3.25 
-1,Lunch,KFC,Waffle O.R. Double Down,$7.35 
-1,Lunch,Malay,Nasi Lemak,$3.00 
-1,Dinner,Malay,Assam Laksa,$3.50 
-1,Breakfast,Indian,Naan,$1.50 
-1,Lunch,Indian,Tandoori Chicken,$3.65 
-1,Lunch,The SandWich Guys,Philly Cheesesteak,$7.00 
-1,Dinner,The SandWich Guys,Peri Peri Chicken,$6.00 
-2,Breakfast,KFC,Cheese Fries,$2.00 
-2,Lunch,KFC,Famous Potato Bowl,$5.30 
-2,Dinner,KFC,Cheesy Zinger Stacker,$7.20 
-2,Breakfast,Malay,Curry Puff,$1.20 
-2,Lunch,Malay,Mee Siam,$2.50 
-2,Dinner,Malay,Mee Rebus,$2.75 
-2,Breakfast,Indian,Samosa,$1.40 
-2,Lunch,Indian,Butter Chicken,$3.50 
-2,Dinner,Indian,Roti,$1.75 
-2,Breakfast,The SandWich Guys,Nachos,$3.00 
-2,Lunch,The SandWich Guys,Cubano,$7.00 
-3,Lunch,MiniWok,Yangzhou Fried Rice,$4.50 
-3,Dinner,MiniWok,Mee Hoon Kueh,$3.00 
-3,Breakfast,Mcdonalds,Sausage McMuffin,$3.20 
-3,Lunch,Mcdonalds,Cheeseburger,$2.00 
-3,Dinner,Mcdonalds,Fillet-O-Fish,$3.75 
-3,Lunch,KFC,Curry Rice Bowl,$5.30 
-3,Dinner,KFC,Original Recipe Rice Bowl,$5.30 
-3,Lunch,Malay,Nasi Padang,$4.50 
-3,Breakfast,The SandWich Guys,Mashed Potato,$2.00 
-3,Lunch,The SandWich Guys,Mexicana Grilled Chicken,$6.00 
-4,Breakfast,MiniWok,Economic Bee Hoon,$0.90 
-4,Lunch,MiniWok,Duck Rice,$3.20 
-4,Breakfast,Mcdonalds,Hotcakes,$4.00 
-4,Lunch,Mcdonalds,McSpicy,$3.50 
-4,Dinner,Mcdonalds,Buttermilk Crispy Chicken,$6.50 
-4,Breakfast,KFC,American Twister,$4.20 
-4,Lunch,KFC,2pcs Chicken Meal,$10.15 
-4,Dinner,KFC,Original Recipe Chicken,$3.55 
-4,Breakfast,Indian,Chapati,$0.70 
-4,Lunch,Indian,Mee Goreng,$4.00 
-5,Lunch,MiniWok,Char Kway Teow,$3.00 
-5,Dinner,MiniWok,Frog Leg Porridge,$2.50 
-5,Breakfast,Mcdonalds,Chicken McMuffin,$3.20 
-5,Lunch,Mcdonalds,The Original Angus,$5.65 
-5,Breakfast,Malay,Tahu Goreng,$2.50 
-5,Lunch,Malay,Roti John,$5.00 
-5,Dinner,Malay,Nasi Kerabu,$4.50 
-5,Lunch,The SandWich Guys,Cowboy Burger,$6.50 
-5,Dinner,The SandWich Guys,Roast Beef,$7.00 
-6,Breakfast,Mcdonalds,Breakfast Wrap Chicken Ham,$3.65 
-6,Lunch,Mcdonalds,6-pcs Chicken McNuggets,$4.95 
-6,Dinner,Mcdonalds,Grilled Chicken Salad,$6.55 
-6,Breakfast,Malay,Satay,$0.60 
-6,Lunch,Malay,Mutton Rendang,$4.00 
-6,Dinner,Malay,Mee Soto,$3.50 
-6,Lunch,Indian,Prata,$2.50 
-6,Dinner,Indian,Lamb Kebabs,$6.00 
-6,Breakfast,The SandWich Guys,Ham and Cheese,$2.50 
-6,Lunch,The SandWich Guys,The MLT (Vegetarian),$5.50 
-6,Dinner,The SandWich Guys,Roasted Eggplant and Cheese,$6.00 
+0,Breakfast,MiniWok,Chicken Rice,$4.00
+0,Lunch,MiniWok,Cereal Prawn,$5.00
+0,Dinner,MiniWok,Sweet and Sour Pork Rice,$5.50
+0,Lunch,Mcdonalds,Big Mac,$7.00
+0,Dinner,Mcdonalds,McChicken,$3.00
+0,Breakfast,KFC,Blueberry Pancake,$3.95
+0,Lunch,KFC,BBQ Pockett,$5.30
+0,Dinner,KFC,Zinger,$5.30
+0,Breakfast,The SandWich Guys,Buttered Corn,$2.50
+0,Lunch,The SandWich Guys,BBQ Pulled Pork,$6.00
+1,Breakfast,MiniWok,Pork Porridge,$3.50
+1,Lunch,MiniWok,Hor Fun,$5.30
+1,Dinner,MiniWok,Chicken Feet,$3.20
+1,Breakfast,KFC,Curry Rice Bowl,$5.30
+1,Breakfast,KFC,Chicken Porridge,$3.25
+1,Lunch,KFC,Waffle O.R. Double Down,$7.35
+1,Lunch,Malay,Nasi Lemak,$3.00
+1,Dinner,Malay,Assam Laksa,$3.50
+1,Breakfast,Indian,Naan,$1.50
+1,Lunch,Indian,Tandoori Chicken,$3.65
+1,Lunch,The SandWich Guys,Philly Cheesesteak,$7.00
+1,Dinner,The SandWich Guys,Peri Peri Chicken,$6.00
+2,Breakfast,KFC,Cheese Fries,$2.00
+2,Lunch,KFC,Famous Potato Bowl,$5.30
+2,Dinner,KFC,Cheesy Zinger Stacker,$7.20
+2,Breakfast,Malay,Curry Puff,$1.20
+2,Lunch,Malay,Mee Siam,$2.50
+2,Dinner,Malay,Mee Rebus,$2.75
+2,Breakfast,Indian,Samosa,$1.40
+2,Lunch,Indian,Butter Chicken,$3.50
+2,Dinner,Indian,Roti,$1.75
+2,Breakfast,The SandWich Guys,Nachos,$3.00
+2,Lunch,The SandWich Guys,Cubano,$7.00
+3,Lunch,MiniWok,Yangzhou Fried Rice,$4.50
+3,Dinner,MiniWok,Mee Hoon Kueh,$3.00
+3,Breakfast,Mcdonalds,Sausage McMuffin,$3.20
+3,Lunch,Mcdonalds,Cheeseburger,$2.00
+3,Dinner,Mcdonalds,Fillet-O-Fish,$3.75
+3,Lunch,KFC,Curry Rice Bowl,$5.30
+3,Dinner,KFC,Original Recipe Rice Bowl,$5.30
+3,Lunch,Malay,Nasi Padang,$4.50
+3,Breakfast,The SandWich Guys,Mashed Potato,$2.00
+3,Lunch,The SandWich Guys,Mexicana Grilled Chicken,$6.00
+4,Breakfast,MiniWok,Economic Bee Hoon,$0.90
+4,Lunch,MiniWok,Duck Rice,$3.20
+4,Breakfast,Mcdonalds,Hotcakes,$4.00
+4,Lunch,Mcdonalds,McSpicy,$3.50
+4,Dinner,Mcdonalds,Buttermilk Crispy Chicken,$6.50
+4,Breakfast,KFC,American Twister,$4.20
+4,Lunch,KFC,2pcs Chicken Meal,$10.15
+4,Dinner,KFC,Original Recipe Chicken,$3.55
+4,Breakfast,Indian,Chapati,$0.70
+4,Lunch,Indian,Mee Goreng,$4.00
+5,Lunch,MiniWok,Char Kway Teow,$3.00
+5,Dinner,MiniWok,Frog Leg Porridge,$2.50
+5,Breakfast,Mcdonalds,Chicken McMuffin,$3.20
+5,Lunch,Mcdonalds,The Original Angus,$5.65
+5,Breakfast,Malay,Tahu Goreng,$2.50
+5,Lunch,Malay,Roti John,$5.00
+5,Dinner,Malay,Nasi Kerabu,$4.50
+5,Lunch,The SandWich Guys,Cowboy Burger,$6.50
+5,Dinner,The SandWich Guys,Roast Beef,$7.00
+6,Breakfast,Mcdonalds,Breakfast Wrap Chicken Ham,$3.65
+6,Lunch,Mcdonalds,6-pcs Chicken McNuggets,$4.95
+6,Dinner,Mcdonalds,Grilled Chicken Salad,$6.55
+6,Breakfast,Malay,Satay,$0.60
+6,Lunch,Malay,Mutton Rendang,$4.00
+6,Dinner,Malay,Mee Soto,$3.50
+6,Lunch,Indian,Prata,$2.50
+6,Dinner,Indian,Lamb Kebabs,$6.00
+6,Breakfast,The SandWich Guys,Ham and Cheese,$2.50
+6,Lunch,The SandWich Guys,The MLT (Vegetarian),$5.50
+6,Dinner,The SandWich Guys,Roasted Eggplant and Cheese,$6.00
