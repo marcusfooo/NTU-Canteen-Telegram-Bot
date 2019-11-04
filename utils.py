@@ -38,15 +38,19 @@ def time_check(time):
         time_period = 'Closed'
         return time_period
 
-
+######################################################################################################################
 # View Today's stores
 def today_store_func():
     today_stores = []
-    for rows in stores_opened:
-        if day == int(rows[0]):
-            today_stores.append(rows[1])
-    return today_stores
+    with open('data/storesopened.csv') as storesopencsv:
+        reader = csv.DictReader(storesopencsv)
+        for rows in reader:
+            if day == int(rows['Day']):
+                store_hrs_str=rows['Store']
+                today_stores.append(store_hrs_str)
 
+    return today_stores
+#####################################################################################################################
 
 # Parses user store input
 def menu_input_parser(user_store_choice):
@@ -127,8 +131,9 @@ def voucher_check(user_name):
         with open('data/claimedvoucher.txt', 'a', newline='') as csv_voucherwrite:
             csv_voucherwrite.write('\n' + user_name)  # Update name in csv and close file
             csv_voucherwrite.close()
-        return "Your Voucher is " + str(random_no) + "\n\n Press /start to return to main menu"
-
+            path = send_voucher_path(random_no)
+            return path
+        ###return "Your Voucher is " + str(random_no) + "\n\n Press /start to return to main menu"
     elif claimed_flag == 1:  # Otherwise, return message
         return "You have already claimed your voucher for today.\n\n Press /start to return to main menu"
 
@@ -164,8 +169,15 @@ def usertime_store_func(day):
         if day == int(rows[0]):
             today_stores.append(rows[1])
     return today_stores
+#######################################################################################################################
+def send_voucher_path(number):
+    with open('data/vouchers.csv') as vouchersCheck:
+        reader = csv.DictReader(vouchersCheck)
+        for rows in reader:
+            if number == int(rows['VoucherNo']):
+                return str("images/voucher"+rows['VoucherPath'])
 
-
+#######################################################################################################################
 # Returns menu items according to date, timeperiod and stall
 def user_menu_input_parser(user_store_choice, user_day, user_timeperiod):
     time_period = time_check(current_time)  # Checks for current time_period: Breakfast/ Lunch/ Dinner/ Closed

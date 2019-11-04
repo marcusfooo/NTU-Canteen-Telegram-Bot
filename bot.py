@@ -4,7 +4,7 @@ import datetime
 from telebot.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, ForceReply, KeyboardButton
 
 # Bot Settings
-TOKEN = '712534091:AAGDpXymyg8wlAMvd7QEWwi9umNsRsXxUlE'
+TOKEN = '712534091:AAHhTpG7i6AlRizqs1WfOU4rITwvBG_0Y4I'
 bot = telebot.TeleBot(TOKEN)
 
 # UI inputs
@@ -64,6 +64,8 @@ def getMenu(message):
     bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
     store_choices = bot.send_message(cid, "The stores opened today are: "
                                      , reply_markup=item_select)  # Provides user inline keyboard
+
+    utils.today_store_func()
     bot.register_next_step_handler(store_choices, menuSelect)
 
 
@@ -154,7 +156,7 @@ def operatingHours(message):
                                    reply_markup=store_select)  # Provides user inline keyboard
     bot.register_next_step_handler(user_choice, storeFinder)
 
-
+####################################################################################################################
 # G)Call for voucher function
 @bot.message_handler(commands=['Voucher'])
 def voucher(message):
@@ -162,8 +164,12 @@ def voucher(message):
     user_name = str(message.from_user.username)  # Retrieves username
     utils.datecsvchecker()  # Checks if date in csv is today, if not, rewrite csv file
     bot_response = utils.voucher_check(user_name)  # Returns voucher if available
-    bot.send_message(message.chat.id, bot_response)
-
+    if bot_response != "You have already claimed your voucher for today.\n\n Press /start to return to main menu":
+        photo = open(bot_response, 'rb')
+        bot.send_photo(message.chat.id, photo)
+    else:
+        bot.send_message(message.chat.id, bot_response)
+#######################################################################################################################
 
 
 # Followup function for MenuDisplay
@@ -190,6 +196,5 @@ def command_default(message):
     bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
     bot.send_message(message.chat.id, "I don't understand, please do try the command again."
                      + "\n\nPress /start to return to Main Menu.")
-
 
 bot.polling()
