@@ -4,7 +4,7 @@ import datetime
 from telebot.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, ForceReply, KeyboardButton
 
 # Bot Settings
-TOKEN = '888683361:AAFESKJeo3BhZrbE4ve7x1B51ykwNOC82PY'
+TOKEN = ''
 bot = telebot.TeleBot(TOKEN)
 
 # UI inputs
