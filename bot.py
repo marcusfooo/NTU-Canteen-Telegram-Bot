@@ -1,10 +1,11 @@
 import utils
 import telebot
 import datetime
-from telebot.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, ForceReply, KeyboardButton
+from telebot.types import ReplyKeyboardRemove, ReplyKeyboardMarkup
 
 # Bot Settings
-TOKEN = '712534091:AAGDpXymyg8wlAMvd7QEWwi9umNsRsXxUlE'
+
+TOKEN = '712534091:AAHhTpG7i6AlRizqs1WfOU4rITwvBG_0Y4I'
 bot = telebot.TeleBot(TOKEN)
 
 # UI inputs
@@ -32,7 +33,7 @@ def start_command(message):
 
 # A)Call for AboutUs function
 @bot.message_handler(commands=['AboutUs'])
-def voucher(message):
+def about_us(message):
     bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
     bot.send_photo(message.chat.id, open('images/logo.jpg', 'rb'))
     bot.send_message(message.chat.id, "goGrub is a project for AY19/20 CZ1003.\n\n"
@@ -64,6 +65,8 @@ def getMenu(message):
     bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
     store_choices = bot.send_message(cid, "The stores opened today are: "
                                      , reply_markup=item_select)  # Provides user inline keyboard
+
+    utils.today_store_func()
     bot.register_next_step_handler(store_choices, menuSelect)
 
 
@@ -80,18 +83,19 @@ def parse_user_date(message):
         user_date = datetime.datetime.strptime(message.text, '%Y/%m/%d')  # Checks if date is valid
         global user_day
         user_day = user_date.weekday()  # Sets weekday integer as global var
-        user_time = bot.reply_to(message, "Enter Time in the format:"  # Requests for time
-                                          "\nHH:MM:SS")
+        user_time = bot.reply_to(message, "Enter Time of specified Date in the format:"  # Requests for time
+                                          "\nHH:MM")
         bot.register_next_step_handler(user_time, datetime_to_menu)
 
     except:
-        bot.send_message(message.chat.id, "Invalid Date given."
-                         + "\n\nPress /start to return to Main Menu.")
+        bot.send_message(message.chat.id, "Invalid input given. Press /CheckStalls to try again"
+                                          " or press /start to return to main menu.")
 
 
 def datetime_to_menu(message):
     try:
-        user_time = datetime.datetime.strptime(message.text, '%H:%M:%S').time()  # Converts to time format
+        input_time = message.text + ":00"  # Adds Seconds to user given time for datetime conversion
+        user_time = datetime.datetime.strptime(input_time, '%H:%M:%S').time()  # Converts to time format
         global user_timeperiod
         user_timeperiod = utils.time_check(user_time)  # Sets Breakfast/ Lunch/ Dinner as global var
         if user_timeperiod == 'Closed':
@@ -109,8 +113,8 @@ def datetime_to_menu(message):
             bot.register_next_step_handler(store_choices, user_menu_select)
 
     except:
-        bot.send_message(message.chat.id, "Invalid Time given."
-                         + "\n\n Press /start to return to Main Menu.")
+        bot.send_message(message.chat.id, "Invalid input given. Press /CheckStalls to try again"
+                                          " or press /start to return to main menu.")
 
 
 def user_menu_select(message):
@@ -162,8 +166,12 @@ def voucher(message):
     user_name = str(message.from_user.username)  # Retrieves username
     utils.datecsvchecker()  # Checks if date in csv is today, if not, rewrite csv file
     bot_response = utils.voucher_check(user_name)  # Returns voucher if available
-    bot.send_message(message.chat.id, bot_response)
-
+    if bot_response != "You have already claimed your voucher for today.\n\n Press /start to return to main menu":
+        photo = open(bot_response, 'rb')
+        bot.send_message(message.chat.id, "Here is your voucher for today!")
+        bot.send_photo(message.chat.id, photo)
+    else:
+        bot.send_message(message.chat.id, bot_response)
 
 
 # Followup function for MenuDisplay
@@ -182,7 +190,7 @@ def storeFinder(message):
     user_store_choice = message.text
     bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
     bot_response = utils.store_input_parser(user_store_choice)  # Returns selected store operating hours
-    bot.send_message(chat_id=message.chat.id, text= bot_response, reply_markup=hideBoard)  # Removes inline keyboard
+    bot.send_message(chat_id=message.chat.id, text=bot_response, reply_markup=hideBoard)  # Removes inline keyboard
 
 
 # Default fallback message
@@ -190,6 +198,5 @@ def command_default(message):
     bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
     bot.send_message(message.chat.id, "I don't understand, please do try the command again."
                      + "\n\nPress /start to return to Main Menu.")
-
 
 bot.polling()

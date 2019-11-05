@@ -42,9 +42,13 @@ def time_check(time):
 # View Today's stores
 def today_store_func():
     today_stores = []
-    for rows in stores_opened:
-        if day == int(rows[0]):
-            today_stores.append(rows[1])
+    with open('data/storesopened.csv') as storesopencsv:
+        reader = csv.DictReader(storesopencsv)  # Open store as a dictionary
+        for rows in reader:
+            if day == int(rows['Day']):
+                store_hrs_str = rows['Store']
+                today_stores.append(store_hrs_str)  # Add stores to empty list if day == dict value
+
     return today_stores
 
 
@@ -123,11 +127,12 @@ def voucher_check(user_name):
         claimed_flag = 1
 
     if claimed_flag == 0:  # If user has not claimed, return voucher number
-        random_no = random.randint(1, 5)
+        random_no = random.randint(1, 5)  # Generates random voucher number
         with open('data/claimedvoucher.txt', 'a', newline='') as csv_voucherwrite:
             csv_voucherwrite.write('\n' + user_name)  # Update name in csv and close file
             csv_voucherwrite.close()
-        return "Your Voucher is " + str(random_no) + "\n\n Press /start to return to main menu"
+            path = send_voucher_path(random_no)  # Returns random voucher
+            return path
 
     elif claimed_flag == 1:  # Otherwise, return message
         return "You have already claimed your voucher for today.\n\n Press /start to return to main menu"
@@ -164,6 +169,15 @@ def usertime_store_func(day):
         if day == int(rows[0]):
             today_stores.append(rows[1])
     return today_stores
+
+
+# Returns random voucher
+def send_voucher_path(number):
+    with open('data/vouchers.csv') as vouchersCheck:
+        reader = csv.DictReader(vouchersCheck)
+        for rows in reader:
+            if number == int(rows['VoucherNo']):
+                return str("images/voucher"+rows['VoucherPath'])
 
 
 # Returns menu items according to date, timeperiod and stall
