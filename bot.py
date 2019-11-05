@@ -1,11 +1,11 @@
 import utils
 import telebot
 import datetime
-from telebot.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, ForceReply, KeyboardButton
+from telebot.types import ReplyKeyboardRemove, ReplyKeyboardMarkup
 
 # Bot Settings
 
-TOKEN = ''
+TOKEN = '712534091:AAHhTpG7i6AlRizqs1WfOU4rITwvBG_0Y4I'
 bot = telebot.TeleBot(TOKEN)
 
 # UI inputs
@@ -33,7 +33,7 @@ def start_command(message):
 
 # A)Call for AboutUs function
 @bot.message_handler(commands=['AboutUs'])
-def voucher(message):
+def about_us(message):
     bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
     bot.send_photo(message.chat.id, open('images/logo.jpg', 'rb'))
     bot.send_message(message.chat.id, "goGrub is a project for AY19/20 CZ1003.\n\n"
@@ -88,8 +88,8 @@ def parse_user_date(message):
         bot.register_next_step_handler(user_time, datetime_to_menu)
 
     except:
-        bot.send_message(message.chat.id, "Invalid Date given."
-                         + "\n\nPress /start to return to Main Menu.")
+        bot.send_message(message.chat.id, "Invalid input given. Press /CheckStalls to try again"
+                                          " or press /start to return to main menu.")
 
 
 def datetime_to_menu(message):
@@ -113,8 +113,8 @@ def datetime_to_menu(message):
             bot.register_next_step_handler(store_choices, user_menu_select)
 
     except:
-        bot.send_message(message.chat.id, "Invalid Time given."
-                         + "\n\n Press /start to return to Main Menu.")
+        bot.send_message(message.chat.id, "Invalid input given. Press /CheckStalls to try again"
+                                          " or press /start to return to main menu.")
 
 
 def user_menu_select(message):
@@ -158,7 +158,7 @@ def operatingHours(message):
                                    reply_markup=store_select)  # Provides user inline keyboard
     bot.register_next_step_handler(user_choice, storeFinder)
 
-####################################################################################################################
+
 # G)Call for voucher function
 @bot.message_handler(commands=['Voucher'])
 def voucher(message):
@@ -168,10 +168,10 @@ def voucher(message):
     bot_response = utils.voucher_check(user_name)  # Returns voucher if available
     if bot_response != "You have already claimed your voucher for today.\n\n Press /start to return to main menu":
         photo = open(bot_response, 'rb')
+        bot.send_message(message.chat.id, "Here is your voucher for today!")
         bot.send_photo(message.chat.id, photo)
     else:
         bot.send_message(message.chat.id, bot_response)
-#######################################################################################################################
 
 
 # Followup function for MenuDisplay
