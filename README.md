@@ -31,7 +31,7 @@ We have also attached the rubric along with the relevant functions for easier gr
 - Implemented under utils.py send_voucher_path()
 
 3.2) Use of tuple/list (5)
-- Present in majority of uitls.py functions
+- Present in majority of utils.py functions
 
 4) Program correctness: Program produces the right output
 under all possible scenarios highlighted in the assignment
