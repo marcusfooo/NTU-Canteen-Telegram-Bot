@@ -4,7 +4,7 @@ import datetime
 from telebot.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, ForceReply, KeyboardButton
 
 # Bot Settings
-TOKEN = '712534091:AAGDpXymyg8wlAMvd7QEWwi9umNsRsXxUlE'
+TOKEN = '888683361:AAFESKJeo3BhZrbE4ve7x1B51ykwNOC82PY'
 bot = telebot.TeleBot(TOKEN)
 
 # UI inputs
@@ -80,8 +80,8 @@ def parse_user_date(message):
         user_date = datetime.datetime.strptime(message.text, '%Y/%m/%d')  # Checks if date is valid
         global user_day
         user_day = user_date.weekday()  # Sets weekday integer as global var
-        user_time = bot.reply_to(message, "Enter Time in the format:"  # Requests for time
-                                          "\nHH:MM:SS")
+        user_time = bot.reply_to(message, "Enter Time of specified Date in the format:"  # Requests for time
+                                          "\nHH:MM")
         bot.register_next_step_handler(user_time, datetime_to_menu)
 
     except:
@@ -91,7 +91,8 @@ def parse_user_date(message):
 
 def datetime_to_menu(message):
     try:
-        user_time = datetime.datetime.strptime(message.text, '%H:%M:%S').time()  # Converts to time format
+        input_time = message.text + ":00"  # Adds Seconds to user given time for datetime conversion
+        user_time = datetime.datetime.strptime(input_time, '%H:%M:%S').time()  # Converts to time format
         global user_timeperiod
         user_timeperiod = utils.time_check(user_time)  # Sets Breakfast/ Lunch/ Dinner as global var
         if user_timeperiod == 'Closed':
@@ -182,7 +183,7 @@ def storeFinder(message):
     user_store_choice = message.text
     bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
     bot_response = utils.store_input_parser(user_store_choice)  # Returns selected store operating hours
-    bot.send_message(chat_id=message.chat.id, text= bot_response, reply_markup=hideBoard)  # Removes inline keyboard
+    bot.send_message(chat_id=message.chat.id, text=bot_response, reply_markup=hideBoard)  # Removes inline keyboard
 
 
 # Default fallback message
