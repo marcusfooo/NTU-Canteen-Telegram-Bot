@@ -6,6 +6,7 @@ from telebot.types import ReplyKeyboardRemove, ReplyKeyboardMarkup
 # Bot Settings
 
 TOKEN = '888683361:AAFESKJeo3BhZrbE4ve7x1B51ykwNOC82PY'
+
 bot = telebot.TeleBot(TOKEN)
 
 # UI inputs
@@ -79,26 +80,25 @@ def input_date(message):
 
 
 def parse_user_date(message):
+    try:
+         user_date = datetime.datetime.strptime(message.text, '%Y/%m/%d')  # Checks if date is valid
+         global user_day
+         user_day = user_date.weekday()  # Sets weekday integer as global var
+         user_time = bot.reply_to(message, "Enter Time of specified Date in the format:"  # Requests for time
+                                      "\nHH:MM")
+         bot.register_next_step_handler(user_time, datetime_to_menu)
 
-        try:
-             user_date = datetime.datetime.strptime(message.text, '%Y/%m/%d')  # Checks if date is valid
-             global user_day
-             user_day = user_date.weekday()  # Sets weekday integer as global var
-             user_time = bot.reply_to(message, "Enter Time of specified Date in the format:"  # Requests for time
-                                          "\nHH:MM")
-             bot.register_next_step_handler(user_time, datetime_to_menu)
-
-        except:
-            global chkdate
-            if(chkdate==4):
-                bot.send_message(message.chat.id, "Invalid input given. Press /CheckStalls to try again"
-                                     " or press /start to return to main menu.")
-                chkdate=0
-            else:
-                chkdate = chkdate + 1
-                bot.send_message(message.chat.id, "Invalid input given. Try again "+ str(5-chkdate) + " tries left.")
-                user_datetry = bot.reply_to(message, "Enter Date in the format: \nYYYY/MM/DD")  # Requests for date
-                bot.register_next_step_handler(user_datetry,parse_user_date)
+    except:
+        global chkdate
+        if(chkdate==4):
+            bot.send_message(message.chat.id, "Invalid input given. Press /CheckStalls to try again"
+                                 " or press /start to return to main menu.")
+            chkdate=0
+        else:
+            chkdate = chkdate + 1
+            bot.send_message(message.chat.id, "Invalid input given. Try again "+ str(5-chkdate) + " tries left.")
+            user_datetry = bot.reply_to(message, "Enter Date in the format: \nYYYY/MM/DD")  # Requests for date
+            bot.register_next_step_handler(user_datetry,parse_user_date)
 def datetime_to_menu(message):
     try:
         input_time = message.text + ":00"  # Adds Seconds to user given time for datetime conversion

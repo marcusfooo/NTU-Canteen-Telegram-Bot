@@ -3,6 +3,7 @@ CZ1003 Project
 
 ########################################################################
 
+
 Members:
 - BCG Marcus Foo
 - CS Lim Wei Rong
@@ -16,6 +17,7 @@ under /venv for the grader's convenience when loading the Python PATH.
 Modules used include : csv, datetime, random, pyTelegramBotAPI
 
 ########################################################################
+
 
 We have also attached the rubric along with the relevant functions for easier grading:
 
@@ -33,6 +35,7 @@ We have also attached the rubric along with the relevant functions for easier gr
 3.2) Use of tuple/list (5)
 - Present in majority of utils.py functions
 
+
 4) Program correctness: Program produces the right output
 under all possible scenarios highlighted in the assignment
 guideline (20)
@@ -49,6 +52,7 @@ of bot.py
 - Simple, clean and intuitive design using Telegram's interface
 
 ########################################################################
+
 
 Features:
 
