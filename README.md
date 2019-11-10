@@ -1,7 +1,8 @@
 # ntu-canteen-app
 CZ1003 Project
 
-#######################################################################################################################
+########################################################################
+
 
 Members:
 - BCG Marcus Foo
@@ -15,7 +16,8 @@ under /venv for the grader's convenience when loading the Python PATH.
 
 Modules used include : csv, datetime, random, pyTelegramBotAPI
 
-#######################################################################################################################
+########################################################################
+
 
 We have also attached the rubric along with the relevant functions for easier grading:
 
@@ -31,7 +33,8 @@ We have also attached the rubric along with the relevant functions for easier gr
 - Implemented under utils.py send_voucher_path()
 
 3.2) Use of tuple/list (5)
-- Present in majority of uitls.py functions
+- Present in majority of utils.py functions
+
 
 4) Program correctness: Program produces the right output
 under all possible scenarios highlighted in the assignment
@@ -48,7 +51,8 @@ of bot.py
 7) Interface Design. User-friendliness (20)
 - Simple, clean and intuitive design using Telegram's interface
 
-#######################################################################################################################
+########################################################################
+
 
 Features:
 
