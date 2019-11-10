@@ -90,16 +90,15 @@ def parse_user_date(message):
 
         except:
             global chkdate
-            if(chkdate==5):
+            if(chkdate==4):
                 bot.send_message(message.chat.id, "Invalid input given. Press /CheckStalls to try again"
                                      " or press /start to return to main menu.")
                 chkdate=0
             else:
+                chkdate = chkdate + 1
                 bot.send_message(message.chat.id, "Invalid input given. Try again "+ str(5-chkdate) + " tries left.")
-                chkdate=chkdate+1
                 user_datetry = bot.reply_to(message, "Enter Date in the format: \nYYYY/MM/DD")  # Requests for date
                 bot.register_next_step_handler(user_datetry,parse_user_date)
-                print(chkdate)
 def datetime_to_menu(message):
     try:
         input_time = message.text + ":00"  # Adds Seconds to user given time for datetime conversion
