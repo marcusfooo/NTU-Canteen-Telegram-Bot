@@ -38,19 +38,19 @@ def time_check(time):
         time_period = 'Closed'
         return time_period
 
-######################################################################################################################
+
 # View Today's stores
 def today_store_func():
     today_stores = []
     with open('data/storesopened.csv') as storesopencsv:
-        reader = csv.DictReader(storesopencsv)
+        reader = csv.DictReader(storesopencsv)  # Open store as a dictionary
         for rows in reader:
             if day == int(rows['Day']):
-                store_hrs_str=rows['Store']
-                today_stores.append(store_hrs_str)
+                store_hrs_str = rows['Store']
+                today_stores.append(store_hrs_str)  # Add stores to empty list if day == dict value
 
     return today_stores
-#####################################################################################################################
+
 
 # Parses user store input
 def menu_input_parser(user_store_choice):
@@ -127,13 +127,13 @@ def voucher_check(user_name):
         claimed_flag = 1
 
     if claimed_flag == 0:  # If user has not claimed, return voucher number
-        random_no = random.randint(1, 5)
+        random_no = random.randint(1, 5)  # Generates random voucher number
         with open('data/claimedvoucher.txt', 'a', newline='') as csv_voucherwrite:
             csv_voucherwrite.write('\n' + user_name)  # Update name in csv and close file
             csv_voucherwrite.close()
-            path = send_voucher_path(random_no)
+            path = send_voucher_path(random_no)  # Returns random voucher
             return path
-        ###return "Your Voucher is " + str(random_no) + "\n\n Press /start to return to main menu"
+
     elif claimed_flag == 1:  # Otherwise, return message
         return "You have already claimed your voucher for today.\n\n Press /start to return to main menu"
 
@@ -169,7 +169,9 @@ def usertime_store_func(day):
         if day == int(rows[0]):
             today_stores.append(rows[1])
     return today_stores
-#######################################################################################################################
+
+
+# Returns random voucher
 def send_voucher_path(number):
     with open('data/vouchers.csv') as vouchersCheck:
         reader = csv.DictReader(vouchersCheck)
@@ -177,7 +179,7 @@ def send_voucher_path(number):
             if number == int(rows['VoucherNo']):
                 return str("images/voucher"+rows['VoucherPath'])
 
-#######################################################################################################################
+
 # Returns menu items according to date, timeperiod and stall
 def user_menu_input_parser(user_store_choice, user_day, user_timeperiod):
     time_period = time_check(current_time)  # Checks for current time_period: Breakfast/ Lunch/ Dinner/ Closed
