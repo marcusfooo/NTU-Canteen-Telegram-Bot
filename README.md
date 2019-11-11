@@ -31,13 +31,13 @@ We have also attached the rubric along with the relevant functions for easier gr
      to execute the new function without an error
 
 3-1. Use of Dictionary (5)
-    - Implemented within utils.py today_store_func()
-    - Implemented under utils.py send_voucher_path()
-    - Implemented under utils.py catchoftheday_func()
-    - Implemented under bot.py menu_dict for check_reply()
+   - Implemented within utils.py today_store_func()
+   - Implemented under utils.py send_voucher_path()
+   - Implemented under utils.py catchoftheday_func()
+   - Implemented under bot.py menu_dict for check_reply()
      
 3-2. Use of tuple/list (5)
-    - Present in majority of utils.py functions
+   - Present in majority of utils.py functions
 
 4. Program correctness: Program produces the right outputhighlighted in the guideline (20)
    - All 7 commands within /start in bot.py have been tested for outputs, a default fallback is present in line 250
