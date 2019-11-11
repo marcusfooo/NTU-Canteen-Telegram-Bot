@@ -19,10 +19,10 @@ Modules used include : csv, datetime, random, pyTelegramBotAPI
 
 We have also attached the rubric along with the relevant functions for easier grading:
 
-1) Use of string operations/functions (5)
+1. Use of string operations/functions (5)
 - Present in majority of functions
 
-2) File operation and Exception handling (5)
+2. File operation and Exception handling (5)
 - Primarily in utils.py, we use try/ except blocks for exception handling
 - In bot.py /CheckStalls and /WaitingTime, we have try/ except blocks and bot.register_next_step_handler() to loop
   function again if user enters invalid input
@@ -30,26 +30,26 @@ We have also attached the rubric along with the relevant functions for easier gr
 - In the case whereby a user presses another function button during a function process, in bot.py we have check_reply()
   to execute the new function without an error
 
-3.1) Use of Dictionary (5)
+3.1. Use of Dictionary (5)
 - Implemented within utils.py today_store_func()
 - Implemented under utils.py send_voucher_path()
 - Implemented under utils.py catchoftheday_func()
 - Implemented under bot.py menu_dict for check_reply()
 
-3.2) Use of tuple/list (5)
+3.2. Use of tuple/list (5)
 - Present in majority of utils.py functions
 
-4) Program correctness: Program produces the right outputhighlighted in the guideline (20)
+4. Program correctness: Program produces the right outputhighlighted in the guideline (20)
 - All 7 commands within /start in bot.py have been tested for outputs, a default fallback is present in line 250
   of bot.py
 
-5) Program organization: function, module (5)
+5. Program organization: function, module (5)
 - Backend logic functions are stored under utils.py and imported in bot.py
 
-6) Programming style: Clarity and comprehensibility of code (5)
+6. Programming style: Clarity and comprehensibility of code (5)
 - All functions are commented with code explanations
 
-7) Interface Design. User-friendliness (20)
+7. Interface Design. User-friendliness (20)
 - Simple, clean and intuitive design using Telegram's interface
 
 ########################################################################
