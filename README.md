@@ -26,11 +26,18 @@ We have also attached the rubric along with the relevant functions for easier gr
 
 2) File operation and Exception handling (5)
 - Primarily in utils.py, we use try/ except blocks for exception handling
+- In bot.py /CheckStalls and /WaitingTime, we have try/ except blocks and bot.register_next_step_handler() to loop
+  function again if user enters invalid input
 - Exception handling can also be found under bot.py, where we have a default fallback message for unknown commands
+- In the case whereby a user presses another function button during a function process, in bot.py we have check_reply()
+  to execute the new function without an error
 
 3.1) Use of Dictionary (5)
 - Implemented within utils.py today_store_func()
 - Implemented under utils.py send_voucher_path()
+- Implemented under utils.py catchoftheday_func()
+- Implemented under bot.py menu_dict for check_reply()
+
 
 3.2) Use of tuple/list (5)
 - Present in majority of utils.py functions
@@ -39,8 +46,8 @@ We have also attached the rubric along with the relevant functions for easier gr
 4) Program correctness: Program produces the right output
 under all possible scenarios highlighted in the assignment
 guideline (20)
-- All 7 commands within /start in bot.py have been tested for outputs, a default fallback is present in line 197
-of bot.py
+- All 7 commands within /start in bot.py have been tested for outputs, a default fallback is present in line 250
+  of bot.py
 
 5) Program organization: function, module (5)
 - Backend logic functions are stored under utils.py and imported in bot.py
