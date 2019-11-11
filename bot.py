@@ -5,7 +5,8 @@ from telebot.types import ReplyKeyboardRemove, ReplyKeyboardMarkup
 
 # Bot Settings
 
-TOKEN = '712534091:AAHhTpG7i6AlRizqs1WfOU4rITwvBG_0Y4I'
+TOKEN = ''
+
 bot = telebot.TeleBot(TOKEN)
 
 # UI inputs
@@ -15,6 +16,16 @@ hideBoard = ReplyKeyboardRemove()  # function to hide inline keyboard
 user_selected_menu = ''
 user_day = ''
 user_timeperiod = ''
+menu_dict = {
+    "/start": "start_command",
+    "/AboutUs": "about_us",
+    "/CatchOfTheDay": "catchoftheDay",
+    "/MenuDisplay": "getMenu",
+    "/CheckStalls": "input_date",
+    "/WaitingTime": "waitingTime",
+    "/OperatingHours": "operatingHours",
+    "/Voucher": "voucher"
+}
 
 # Start Menu
 @bot.message_handler(commands=['start'])
@@ -63,8 +74,8 @@ def getMenu(message):
         item_select.add(i)
     cid = message.chat.id
     bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
-    store_choices = bot.send_message(cid, "The stores opened today are: "
-                                     , reply_markup=item_select)  # Provides user inline keyboard
+    store_choices = bot.send_message(cid, "The stores opened today are: \n"
+                                          + str(shop_list), reply_markup=item_select)  # Display Keyboard
 
     utils.today_store_func()
     bot.register_next_step_handler(store_choices, menuSelect)
@@ -79,52 +90,62 @@ def input_date(message):
 
 
 def parse_user_date(message):
-    try:
-        user_date = datetime.datetime.strptime(message.text, '%Y/%m/%d')  # Checks if date is valid
-        global user_day
-        user_day = user_date.weekday()  # Sets weekday integer as global var
-        user_time = bot.reply_to(message, "Enter Time of specified Date in the format:"  # Requests for time
-                                          "\nHH:MM")
-        bot.register_next_step_handler(user_time, datetime_to_menu)
+    if message.text in menu_dict:  # Checks whether user selects another function
+        check_reply(message)  # Starts new function if user selects another function midway
+    else:
+        try:
+            user_date = datetime.datetime.strptime(message.text, '%Y/%m/%d')  # Checks if date is valid
+            global user_day
+            user_day = user_date.weekday()  # Sets weekday integer as global var
+            user_time = bot.reply_to(message, "Enter Time of specified Date in the format:"  # Requests for time
+                                      "\nHH:MM")
+            bot.register_next_step_handler(user_time, datetime_to_menu)
 
-    except:
-        bot.send_message(message.chat.id, "Invalid input given. Press /CheckStalls to try again"
-                                          " or press /start to return to main menu.")
+        except:
+            user_datetry = bot.reply_to(message, "Invalid input given. Try entering Date in the format: \nYYYY/MM/DD"
+                                               "\nOr press /start to return to main menu.")  # Requests for date
+            bot.register_next_step_handler(user_datetry, parse_user_date)
 
 
 def datetime_to_menu(message):
-    try:
-        input_time = message.text + ":00"  # Adds Seconds to user given time for datetime conversion
-        user_time = datetime.datetime.strptime(input_time, '%H:%M:%S').time()  # Converts to time format
-        global user_timeperiod
-        user_timeperiod = utils.time_check(user_time)  # Sets Breakfast/ Lunch/ Dinner as global var
-        if user_timeperiod == 'Closed':
-            bot.send_message(message.chat.id, "None of the stalls are opened at this time."
-                             + "\n\n Press /start to return to Main Menu.")
-        else:
-            global user_selected_menu
-            user_selected_menu = utils.usertime_store_func(user_day)  # Returns list of stores opened on given date
-            item_select = ReplyKeyboardMarkup(one_time_keyboard=True)  # Converts list of stalls to keyboard
-            for i in user_selected_menu:
-                item_select.add(i)
-            bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
-            store_choices = bot.reply_to(message, "The stores opened today are: "
-                                         , reply_markup=item_select)  # Provides user inline keyboard
-            bot.register_next_step_handler(store_choices, user_menu_select)
+    if message.text == "/start":  # Displays Main Menu if /start input is detected
+        start_command(message)
+    else:
+        try:
+            input_time = message.text + ":00"  # Adds Seconds to user given time for datetime conversion
+            user_time = datetime.datetime.strptime(input_time, '%H:%M:%S').time()  # Converts to time format
+            global user_timeperiod
+            user_timeperiod = utils.time_check(user_time)  # Sets Breakfast/ Lunch/ Dinner as global var
+            if user_timeperiod == 'Closed':
+                bot.send_message(message.chat.id, "None of the stalls are opened at this time."
+                                 + "\n\n Press /start to return to Main Menu.")
+            else:
+                global user_selected_menu
+                user_selected_menu = utils.usertime_store_func(user_day)  # Returns list of stores opened on given date
+                item_select = ReplyKeyboardMarkup(one_time_keyboard=True)  # Converts list of stalls to keyboard
+                for i in user_selected_menu:
+                    item_select.add(i)
+                bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
+                store_choices = bot.reply_to(message, "The stores opened today are: ", reply_markup=item_select)
+                bot.register_next_step_handler(store_choices, user_menu_select)
 
-    except:
-        bot.send_message(message.chat.id, "Invalid input given. Press /CheckStalls to try again"
-                                          " or press /start to return to main menu.")
+        except:
+            user_timetry = bot.reply_to(message, "Invalid input given. Try entering Time in the format: \nHH:MM"
+                                                 "\nOr press /start to return to main menu.")  # Requests for time
+            bot.register_next_step_handler(user_timetry, datetime_to_menu)
 
 
 def user_menu_select(message):
-    user_store_choice = message.text
-    if user_store_choice in user_selected_menu:  # Checks if user selects valid store
-        bot_response = utils.user_menu_input_parser(user_store_choice, user_day, user_timeperiod)  # Returns response
-        bot.send_message(message.chat.id, bot_response, reply_markup=hideBoard)
+    if message.text in menu_dict:  # Checks whether user selects another function
+        check_reply(message)  # Starts new function if user selects another function midway
     else:
-        bot.send_message(message.chat.id, "I don't understand, please do try the command again."
-                         + "\n\nPress /start to return to Main Menu.")
+        user_store_choice = message.text
+        if user_store_choice in user_selected_menu:  # Checks if user selects valid store
+            bot_response = utils.user_menu_input_parser(user_store_choice, user_day, user_timeperiod)  # Return response
+            bot.send_message(message.chat.id, bot_response, reply_markup=hideBoard)
+        else:
+            bot.send_message(message.chat.id, "I don't understand, please do try the command again."
+                             + "\n\nPress /start to return to Main Menu.")
 
 
 # E)Call to calculate waiting time
@@ -137,15 +158,19 @@ def waitingTime(message):
 
 # Function to calculate waiting time
 def calculate(message):
-    try:
-        queue_number = int(message.text)
-        hours, minutes = utils.waiting_time_func(queue_number)  # Returns waiting time
-        bot.send_message(message.chat.id, "The estimated queue time is %s hours and %s minutes." % (hours, minutes)
-                         + "\n\nPress /start to return to Main Menu.")
+    if message.text in menu_dict:  # Checks whether user selects another function
+        check_reply(message)  # Starts new function if user selects another function midway
+    else:
+        try:
+            queue_number = int(message.text)
+            hours, minutes = utils.waiting_time_func(queue_number)  # Returns waiting time
+            bot.send_message(message.chat.id, "The estimated queue time is %s hours and %s minutes." % (hours, minutes)
+                             + "\n\nPress /start to return to Main Menu.")
 
-    except:
-        bot.send_message(message.chat.id,"Error, please enter a valid number\nPress /WaitingTime to try again "
-                                         "or /start to return to Main Menu.")
+        except:
+            user_intTry = bot.reply_to(message, "Error, please try again using a valid integer."
+                                             "\nOr press /start to return to Main Menu.")  # Requests for Waiting Time
+            bot.register_next_step_handler(user_intTry, calculate)
 
 
 # F)Finds the operating hours for store selected
@@ -177,20 +202,47 @@ def voucher(message):
 # Followup function for MenuDisplay
 @bot.message_handler(func=lambda message: True)
 def menuSelect(message):
-    cid = message.chat.id
-    user_store_choice = message.text
-    bot.send_chat_action(cid, 'typing')  # Bot typing action
-    bot_response = utils.menu_input_parser(user_store_choice)  # Returns selected store items and price
-    bot.send_message(message.chat.id, bot_response, reply_markup=hideBoard)  # Removes inline keyboard
+    if message.text in menu_dict:  # Checks whether user selects another function
+        check_reply(message)  # Starts new function if user selects another function midway
+    else:
+        cid = message.chat.id
+        user_store_choice = message.text
+        bot.send_chat_action(cid, 'typing')  # Bot typing action
+        bot_response = utils.menu_input_parser(user_store_choice)  # Returns selected store items and price
+        bot.send_message(message.chat.id, bot_response, reply_markup=hideBoard)  # Removes inline keyboard
 
 
 # Followup function for Operating hours
 @bot.message_handler(func=lambda message: True)
 def storeFinder(message):
-    user_store_choice = message.text
-    bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
-    bot_response = utils.store_input_parser(user_store_choice)  # Returns selected store operating hours
-    bot.send_message(chat_id=message.chat.id, text=bot_response, reply_markup=hideBoard)  # Removes inline keyboard
+    if message.text in menu_dict:  # Checks whether user selects another function
+        check_reply(message)  # Starts new function if user selects another function midway
+    else:
+        user_store_choice = message.text
+        bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
+        bot_response = utils.store_input_parser(user_store_choice)  # Returns selected store operating hours
+        bot.send_message(chat_id=message.chat.id, text=bot_response, reply_markup=hideBoard)  # Removes inline keyboard
+
+
+# Function to execute new function if user inputs and switches to another function
+def check_reply(message):
+    message_input = message.text
+    if message_input == "/start":
+        start_command(message)
+    elif message_input == "/AboutUs":
+        about_us(message)
+    elif message_input == "/CatchOfTheDay":
+        catchoftheDay(message)
+    elif message_input == "/MenuDisplay":
+        getMenu(message)
+    elif message_input == "/CheckStalls":
+        input_date(message)
+    elif message_input == "/WaitingTime":
+        waitingTime(message)
+    elif message_input == "/OperatingHours":
+        operatingHours(message)
+    elif message_input == "/Voucher":
+        voucher(message)
 
 
 # Default fallback message
@@ -198,5 +250,6 @@ def command_default(message):
     bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
     bot.send_message(message.chat.id, "I don't understand, please do try the command again."
                      + "\n\nPress /start to return to Main Menu.")
+
 
 bot.polling()

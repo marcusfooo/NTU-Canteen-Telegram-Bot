@@ -108,8 +108,8 @@ def operating_hours_func():
 
 # Resets csv file to today's date
 def datecsvchecker():
-    now = datetime.datetime.now()
-    current_date = now.strftime('%d:%m:%Y')
+    now_date = datetime.datetime.now()
+    current_date = now_date.strftime('%d:%m:%Y')
     lines = [line.rstrip('\n') for line in open('data/claimedvoucher.txt')]
     if current_date in lines:  # If current date is in csv, ignore
         pass
@@ -140,33 +140,27 @@ def voucher_check(user_name):
 
 # Returns catch of the day item and price
 def catchoftheday_func():
-    with open('data/catch.csv') as csv_catch:
-        csv_reader_catch = csv.reader(csv_catch, delimiter=',')
-        for row in csv_reader_catch:
-            catch_list = row
-        catch = catch_list[0]  # Returns today's catch item
-        catch_price = catch_list[1]  # Returns today's catch price
-        csv_catch.close()
-
-    # Returns catch of the day photo
-    if catch == "Cheeseburger":
-        bot_photo = open('images/cheeseburger.jpg', 'rb')
-
-    elif catch == "Big Mac":
-        bot_photo = open('images/bigmac.jpg', 'rb')
-
-    elif catch == "KFC Pocket":
-        bot_photo = open('images/pocket.jpg', 'rb')
-
+    catchoftheday_dict = {
+        "0": ["KFC Potato Bowl", "images/Food/potatobowl.jpg", "$1.49"],
+        "1": ["KFC Pocket", "images/Food/pocket.jpg", "$3.49"],
+        "2": ["Big Mac", "images/Food/bigmac.jpg", "$2.99"],
+        "3": ["MacDonald Cheeseburger", "images/Food/cheeseburger.jpg", "$0.99"],
+        "4": ["KFC Curry Bowl", "images/Food/curryricebowl.jpg", "$2.99"],
+        "5": ["MacDonald Fillet-O-Fish", "images/Food/filletofish.jpg", "$0.99"],
+        "6": ["KFC Blueberry Pancake", "images/Food/kfcblueberry.jpg", "$1.49"]
+    }
+    catch = catchoftheday_dict[str(day)][0]  # Returns catch of the day name
+    bot_photo = open(catchoftheday_dict[str(day)][1], "rb")  # Returns catch of the day photo
+    catch_price = catchoftheday_dict[str(day)][2]  # Returns catch of the day price
     bot_response = catch + " is at " + catch_price + " only for today!\nPress /start to return to main menu"
     return bot_photo, bot_response
 
 
 # Returns day as integer from date
-def usertime_store_func(day):
+def usertime_store_func(bot_day):
     today_stores = []
     for rows in stores_opened:
-        if day == int(rows[0]):
+        if bot_day == int(rows[0]):
             today_stores.append(rows[1])
     return today_stores
 
@@ -177,7 +171,7 @@ def send_voucher_path(number):
         reader = csv.DictReader(vouchersCheck)
         for rows in reader:
             if number == int(rows['VoucherNo']):
-                return str("images/voucher"+rows['VoucherPath'])
+                return str("images/Vouchers/voucher"+rows['VoucherPath'])  # Returns voucher path
 
 
 # Returns menu items according to date, timeperiod and stall
