@@ -101,7 +101,7 @@ def parse_user_date(message):
                                       "\nHH:MM")
             bot.register_next_step_handler(user_time, datetime_to_menu)
 
-        except:
+        except ValueError:
             user_datetry = bot.reply_to(message, "Invalid input given. Try entering Date in the format: \nYYYY/MM/DD"
                                                "\nOr press /start to return to main menu.")  # Requests for date
             bot.register_next_step_handler(user_datetry, parse_user_date)
@@ -129,7 +129,7 @@ def datetime_to_menu(message):
                 store_choices = bot.reply_to(message, "The stores opened today are: ", reply_markup=item_select)
                 bot.register_next_step_handler(store_choices, user_menu_select)
 
-        except:
+        except ValueError:
             user_timetry = bot.reply_to(message, "Invalid input given. Try entering Time in the format: \nHH:MM"
                                                  "\nOr press /start to return to main menu.")  # Requests for time
             bot.register_next_step_handler(user_timetry, datetime_to_menu)
@@ -144,8 +144,13 @@ def user_menu_select(message):
             bot_response = utils.user_menu_input_parser(user_store_choice, user_day, user_timeperiod)  # Return response
             bot.send_message(message.chat.id, bot_response, reply_markup=hideBoard)
         else:
-            bot.send_message(message.chat.id, "I don't understand, please do try the command again."
-                             + "\n\nPress /start to return to Main Menu.")
+            item_select = ReplyKeyboardMarkup(one_time_keyboard=True)  # Converts list of stalls to keyboard
+            for i in user_selected_menu:
+                item_select.add(i)
+            bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
+            store_choices = bot.reply_to(message, "Invalid input given, please try again."
+                                                  "\nThe stores opened today are: ", reply_markup=item_select)
+            bot.register_next_step_handler(store_choices, user_menu_select)
 
 
 # E)Call to calculate waiting time
@@ -167,7 +172,7 @@ def calculate(message):
             bot.send_message(message.chat.id, "The estimated queue time is %s hours and %s minutes." % (hours, minutes)
                              + "\n\nPress /start to return to Main Menu.")
 
-        except:
+        except ValueError:
             user_intTry = bot.reply_to(message, "Error, please try again using a valid integer."
                                              "\nOr press /start to return to Main Menu.")  # Requests for Waiting Time
             bot.register_next_step_handler(user_intTry, calculate)
