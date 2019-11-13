@@ -108,8 +108,8 @@ def parse_user_date(message):
 
 
 def datetime_to_menu(message):
-    if message.text == "/start":  # Displays Main Menu if /start input is detected
-        start_command(message)
+    if message.text in menu_dict:  # Checks whether user selects another function
+        check_reply(message)  # Starts new function if user selects another function midway
     else:
         try:
             input_time = message.text + ":00"  # Adds Seconds to user given time for datetime conversion
