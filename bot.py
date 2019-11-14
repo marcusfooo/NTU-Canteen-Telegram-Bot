@@ -15,6 +15,7 @@ hideBoard = ReplyKeyboardRemove()  # function to hide inline keyboard
 # Stored Values
 user_selected_menu = ''
 user_day = ''
+user_time = ''
 user_timeperiod = ''
 menu_dict = {
     "/start": "start_command",
@@ -113,8 +114,8 @@ def datetime_to_menu(message):
     else:
         try:
             input_time = message.text + ":00"  # Adds Seconds to user given time for datetime conversion
+            global user_timeperiod, user_time
             user_time = datetime.datetime.strptime(input_time, '%H:%M:%S').time()  # Converts to time format
-            global user_timeperiod
             user_timeperiod = utils.time_check(user_time)  # Sets Breakfast/ Lunch/ Dinner as global var
             if user_timeperiod == 'Closed':
                 bot.send_message(message.chat.id, "None of the stalls are opened at this time."
@@ -126,7 +127,7 @@ def datetime_to_menu(message):
                 for i in user_selected_menu:
                     item_select.add(i)
                 bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
-                store_choices = bot.reply_to(message, "The stores opened today are: ", reply_markup=item_select)
+                store_choices = bot.reply_to(message, "The stores opened that day are: ", reply_markup=item_select)
                 bot.register_next_step_handler(store_choices, user_menu_select)
 
         except ValueError:
@@ -141,8 +142,14 @@ def user_menu_select(message):
     else:
         user_store_choice = message.text
         if user_store_choice in user_selected_menu:  # Checks if user selects valid store
-            bot_response = utils.user_menu_input_parser(user_store_choice, user_day, user_timeperiod)  # Return response
-            bot.send_message(message.chat.id, bot_response, reply_markup=hideBoard)
+            global user_timeperiod
+            user_timeperiod = utils.time_close(user_store_choice, user_day, user_time)
+            if user_timeperiod == 'Closed':
+                bot.send_message(message.chat.id, user_store_choice + " is closed at this time."
+                                 + "\n\n Press /start to return to Main Menu.")
+            else:
+                bot_response = utils.user_menu_input_parser(user_store_choice, user_day, user_timeperiod)  # Return response
+                bot.send_message(message.chat.id, bot_response, reply_markup=hideBoard)
         else:
             item_select = ReplyKeyboardMarkup(one_time_keyboard=True)  # Converts list of stalls to keyboard
             for i in user_selected_menu:
@@ -256,5 +263,4 @@ def command_default(message):
     bot.send_message(message.chat.id, "I don't understand, please do try the command again."
                      + "\n\nPress /start to return to Main Menu.")
 
-
-bot.polling()
+bot.infinity_polling()

@@ -1,6 +1,7 @@
 import csv
 import datetime
 import random
+from math import floor, ceil
 
 
 # Reads Opening Hours csv
@@ -21,6 +22,30 @@ day = datetime.datetime.today().weekday()
 now = datetime.datetime.now().time()
 current_time = now.strftime('%H:%M:%S')
 current_time = datetime.datetime.strptime(current_time, '%H:%M:%S').time()
+
+
+def time_close(stall, stall_day, user_time):
+    stall_open_time = ''
+    stall_closed_time = ''
+    for rows in stores_opened:
+        if stall == rows[1] and stall_day == int(rows[0]):
+            stall_open = float(rows[3])
+            stall_closed = float(rows[4])
+            stall_open_time = datetime.datetime.strptime(str(floor(stall_open)) + ":0:0", '%H:%M:%S').time()
+            stall_closed_time = datetime.datetime.strptime(str(ceil(stall_closed)) + ":0:0", '%H:%M:%S').time()
+            break
+
+    if not(stall_open_time <= user_time <= stall_closed_time):
+        return 'Closed'
+
+    elif datetime.time(6, 0, 0) <= user_time <= datetime.time(11, 0, 0):
+        return 'Breakfast'
+
+    elif datetime.time(11, 0, 1) <= user_time <= datetime.time(17, 0, 0):
+        return 'Lunch'
+
+    elif datetime.time(17, 0, 1) <= user_time <= datetime.time(23, 0, 0):
+        return 'Dinner'
 
 
 # Matches user_time to breakfast/ lunch/ dinner/ closed
