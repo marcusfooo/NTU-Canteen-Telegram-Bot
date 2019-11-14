@@ -116,8 +116,8 @@ def datetime_to_menu(message):
             input_time = message.text + ":00"  # Adds Seconds to user given time for datetime conversion
             global user_timeperiod, user_time
             user_time = datetime.datetime.strptime(input_time, '%H:%M:%S').time()  # Converts to time format
-            user_timeperiod = utils.time_check(user_time)  # Sets Breakfast/ Lunch/ Dinner as global var
-            if user_timeperiod == 'Closed':
+            user_timeperiod = utils.time_check(user_time)
+            if user_timeperiod == 'Closed':  # Checks if time given is when all stores are generally closed
                 bot.send_message(message.chat.id, "None of the stalls are opened at this time."
                                  + "\n\n Press /start to return to Main Menu.")
             else:
@@ -143,7 +143,7 @@ def user_menu_select(message):
         user_store_choice = message.text
         if user_store_choice in user_selected_menu:  # Checks if user selects valid store
             global user_timeperiod
-            user_timeperiod = utils.time_close(user_store_choice, user_day, user_time)
+            user_timeperiod = utils.time_close(user_store_choice, user_day, user_time)  # Specifically checks if time is open for a stall
             if user_timeperiod == 'Closed':
                 bot.send_message(message.chat.id, user_store_choice + " is closed at this time."
                                  + "\n\n Press /start to return to Main Menu.")
@@ -263,4 +263,6 @@ def command_default(message):
     bot.send_message(message.chat.id, "I don't understand, please do try the command again."
                      + "\n\nPress /start to return to Main Menu.")
 
+
 bot.infinity_polling()
+
