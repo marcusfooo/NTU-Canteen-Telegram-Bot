@@ -32,8 +32,8 @@ def time_close(stall, stall_day, user_time):
         if stall == rows[1] and stall_day == int(rows[0]):
             stall_open = float(rows[3])  # Converts opening time to float
             stall_closed = float(rows[4])  # Converts closing time to float
-            stall_open_time = datetime.datetime.strptime(str(floor(stall_open)) + ":0:0", '%H:%M:%S').time()  # Converts to datetime format
-            stall_closed_time = datetime.datetime.strptime(str(ceil(stall_closed)) + ":0:0", '%H:%M:%S').time()  # Converts to datetime format
+            stall_open_time = datetime.datetime.strptime(str(int(floor(stall_open))) + ":0:0", '%H:%M:%S').time()  # Converts to datetime format
+            stall_closed_time = datetime.datetime.strptime(str(int(ceil(stall_closed))) + ":0:0", '%H:%M:%S').time()  # Converts to datetime format
             break
 
     # Returns status of stall with given time
@@ -203,16 +203,15 @@ def send_voucher_path(number):
 
 # Returns menu items according to date, timeperiod and stall
 def user_menu_input_parser(user_store_choice, user_day, user_timeperiod):
-    time_period = time_check(current_time)  # Checks for current time_period: Breakfast/ Lunch/ Dinner/ Closed
     store_menu = ""
     for row in menu:
         if user_day == int(row[0]) and user_timeperiod == row[1] and user_store_choice == row[2]:
             store_menu = store_menu + (row[3] + " " + row[4] + "\n")
 
     if store_menu == "":  # Return string if none available
-        return (user_store_choice + " " + time_period + " Menu has nothing available then." +
+        return (user_store_choice + " " + user_timeperiod + " Menu has nothing available then." +
                 "\n\n Press /start to return to main menu")
 
     else:
-        return (user_store_choice + " " + time_period + " Menu will have: \n" + store_menu +
+        return (user_store_choice + " " + user_timeperiod + " Menu will have: \n" + store_menu +
                 "\n\n Press /start to return to main menu")

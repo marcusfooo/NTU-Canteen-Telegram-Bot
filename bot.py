@@ -5,7 +5,7 @@ from telebot.types import ReplyKeyboardRemove, ReplyKeyboardMarkup
 
 # Bot Settings
 
-TOKEN = '712534091:AAF1rfhpIucDsqvgujNxmCgRSDIZT8F9WZk'
+TOKEN = '888683361:AAFg37mqjB3EgTj8JR30Kp930no_RMG-5_A'
 
 bot = telebot.TeleBot(TOKEN)
 
@@ -175,9 +175,14 @@ def calculate(message):
     else:
         try:
             queue_number = int(message.text)
-            hours, minutes = utils.waiting_time_func(queue_number)  # Returns waiting time
-            bot.send_message(message.chat.id, "The estimated queue time is %s hours and %s minutes." % (hours, minutes)
-                             + "\n\nPress /start to return to Main Menu.")
+            if queue_number <= 0:
+                user_intTry = bot.reply_to(message, "Error, please try again using a positive integer."
+                                                    "\nOr press /start to return to Main Menu.")  # Requests for Waiting Time
+                bot.register_next_step_handler(user_intTry, calculate)
+            else:
+                hours, minutes = utils.waiting_time_func(queue_number)  # Returns waiting time
+                bot.send_message(message.chat.id, "The estimated queue time is %s hours and %s minutes." % (hours, minutes)
+                                 + "\n\nPress /start to return to Main Menu.")
 
         except ValueError:
             user_intTry = bot.reply_to(message, "Error, please try again using a valid integer."

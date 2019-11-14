@@ -8,6 +8,14 @@ Members:
 - CS Lim Wei Rong
 - CS Lim Xiao Wei
 
+*IMPORTANT*
+We currently have the bot hosted on pythonanywhere.com. You may access the bot directly on Telegram by @goGrubBot
+HOWEVER, in the case whereby the bot is not functioning properly, we have an alternative bot and token. You may start 
+the bot by replacing the TOKEN string in bot.py with the TOKEN below and run the program. This alternative token
+is for ANOTHER test bot @goGrubTest_bot instead.
+
+TOKEN = '888683361:AAFg37mqjB3EgTj8JR30Kp930no_RMG-5_A'
+
 For this assignment, we have decided to use the Telegram Bot API to interact with users as our frontend. The code for
 our Telebot frontend is stored within the bot.py file, while our backend logic is stored within the utils.py file.
 Rest our our csv and txt files are stored under the /data folder, images stored within /images and virtual environment
