@@ -28,7 +28,7 @@ menu_dict = {
     "/Voucher": "voucher"
 }
 
-# Start Menu
+# Start Menu, Wei Rong
 @bot.message_handler(commands=['start'])
 def start_command(message):
     bot.send_message(
@@ -43,7 +43,7 @@ def start_command(message):
         "G) Claim your daily voucher! /Voucher\n"
     )
 
-# A)Call for AboutUs function
+# A)Call for AboutUs function, Xiao Wei
 @bot.message_handler(commands=['AboutUs'])
 def about_us(message):
     bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
@@ -57,7 +57,7 @@ def about_us(message):
                      + "\n\nPress /start to return to Main Menu.")
 
 
-# B)Function for today's special deal
+# B)Function for today's special deal, Xiao Wei
 @bot.message_handler(commands=['CatchOfTheDay'])
 def catchoftheDay(message):
     bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
@@ -66,7 +66,7 @@ def catchoftheDay(message):
     bot.send_message(message.chat.id, bot_response)  # Send catch response
 
 
-# C)Call to MenuDisplay
+# C)Call to MenuDisplay, Xiao Wei
 @bot.message_handler(commands=['MenuDisplay'])
 def getMenu(message):
     shop_list = list(utils.today_store_func())  # Returns list of stores opened today
@@ -82,7 +82,7 @@ def getMenu(message):
     bot.register_next_step_handler(store_choices, menuSelect)
 
 
-# D)Call for Stall and Menu selection
+# D)Call for Stall and Menu selection, Marcus
 @bot.message_handler(commands=['CheckStalls'])
 def input_date(message):
     bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
@@ -90,6 +90,7 @@ def input_date(message):
     bot.register_next_step_handler(user_date, parse_user_date)
 
 
+# Marcus
 def parse_user_date(message):
     if message.text in menu_dict:  # Checks whether user selects another function
         check_reply(message)  # Starts new function if user selects another function midway
@@ -108,6 +109,7 @@ def parse_user_date(message):
             bot.register_next_step_handler(user_datetry, parse_user_date)
 
 
+# Marcus
 def datetime_to_menu(message):
     if message.text in menu_dict:  # Checks whether user selects another function
         check_reply(message)  # Starts new function if user selects another function midway
@@ -136,6 +138,7 @@ def datetime_to_menu(message):
             bot.register_next_step_handler(user_timetry, datetime_to_menu)
 
 
+# Marcus
 def user_menu_select(message):
     if message.text in menu_dict:  # Checks whether user selects another function
         check_reply(message)  # Starts new function if user selects another function midway
@@ -160,7 +163,7 @@ def user_menu_select(message):
             bot.register_next_step_handler(store_choices, user_menu_select)
 
 
-# E)Call to calculate waiting time
+# E)Call to calculate waiting time, Wei Rong
 @bot.message_handler(commands=['WaitingTime'])
 def waitingTime(message):
     bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
@@ -168,7 +171,7 @@ def waitingTime(message):
     bot.register_next_step_handler(queue_number, calculate)  # Proceeds to calculate function after user input
 
 
-# Function to calculate waiting time
+# Function to calculate waiting time, Wei Rong
 def calculate(message):
     if message.text in menu_dict:  # Checks whether user selects another function
         check_reply(message)  # Starts new function if user selects another function midway
@@ -190,7 +193,7 @@ def calculate(message):
             bot.register_next_step_handler(user_intTry, calculate)
 
 
-# F)Finds the operating hours for store selected
+# F)Finds the operating hours for store selected, Marcus
 @bot.message_handler(commands=['OperatingHours'])
 def operatingHours(message):
     store_select = ReplyKeyboardMarkup(one_time_keyboard=True)
@@ -201,7 +204,7 @@ def operatingHours(message):
     bot.register_next_step_handler(user_choice, storeFinder)
 
 
-# G)Call for voucher function
+# G)Call for voucher function, Wei Rong
 @bot.message_handler(commands=['Voucher'])
 def voucher(message):
     bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
@@ -216,7 +219,7 @@ def voucher(message):
         bot.send_message(message.chat.id, bot_response)
 
 
-# Followup function for MenuDisplay
+# Followup function for MenuDisplay, Xiao Wei
 @bot.message_handler(func=lambda message: True)
 def menuSelect(message):
     if message.text in menu_dict:  # Checks whether user selects another function
@@ -229,7 +232,7 @@ def menuSelect(message):
         bot.send_message(message.chat.id, bot_response, reply_markup=hideBoard)  # Removes inline keyboard
 
 
-# Followup function for Operating hours
+# Followup function for Operating , Marcus
 @bot.message_handler(func=lambda message: True)
 def storeFinder(message):
     if message.text in menu_dict:  # Checks whether user selects another function
@@ -241,7 +244,7 @@ def storeFinder(message):
         bot.send_message(chat_id=message.chat.id, text=bot_response, reply_markup=hideBoard)  # Removes inline keyboard
 
 
-# Function to execute new function if user inputs and switches to another function
+# Function to execute new function if user inputs and switches to another function, Marcus
 def check_reply(message):
     message_input = message.text
     if message_input == "/start":
@@ -262,7 +265,7 @@ def check_reply(message):
         voucher(message)
 
 
-# Default fallback message
+# Default fallback message, Xiao Wei
 def command_default(message):
     bot.send_chat_action(message.chat.id, 'typing')  # Bot typing action
     bot.send_message(message.chat.id, "I don't understand, please do try the command again."

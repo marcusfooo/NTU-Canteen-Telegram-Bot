@@ -24,7 +24,7 @@ current_time = now.strftime('%H:%M:%S')
 current_time = datetime.datetime.strptime(current_time, '%H:%M:%S').time()
 
 
-# Specifically checks whether stall is opened at a specific time
+# Specifically checks whether stall is opened at a specific time, Marcus
 def time_close(stall, stall_day, user_time):
     stall_open_time = ''
     stall_closed_time = ''
@@ -50,7 +50,7 @@ def time_close(stall, stall_day, user_time):
         return 'Dinner'
 
 
-# Matches user_time to breakfast/ lunch/ dinner/ closed
+# Matches user_time to breakfast/ lunch/ dinner/ closed, Xiao Wei
 def time_check(time):
     if datetime.time(6, 0, 0) <= time <= datetime.time(11, 0, 0):
         time_period = 'Breakfast'
@@ -66,7 +66,7 @@ def time_check(time):
         return time_period
 
 
-# View Today's stores
+# View Today's stores, Xiao Wei
 def today_store_func():
     today_stores = []
     with open('data/storesopened.csv') as storesopencsv:
@@ -79,7 +79,7 @@ def today_store_func():
     return today_stores
 
 
-# Parses user store input
+# Parses user store input, Xiao Wei
 def menu_input_parser(user_store_choice):
     time_period = time_check(current_time)  # Checks for current time_period: Breakfast/ Lunch/ Dinner/ Closed
     shop_list = list(today_store_func())
@@ -101,6 +101,7 @@ def menu_input_parser(user_store_choice):
         return "I don't understand, please do try the command again \n\n Press /start to return to main menu"
 
 
+# Marcus
 def store_input_parser(user_store_choice):
     every_store_list = ['MiniWok', 'Mcdonalds', 'KFC', 'The Sandwich Guys', 'Malay', 'Indian']
     opening_days = ""
@@ -116,7 +117,7 @@ def store_input_parser(user_store_choice):
         return "Invalid input, please do try /OperatingHours again" + "\n\n Press /start to return to main menu"
 
 
-# Feature E: Waiting Time calculator
+# Feature E: Waiting Time calculator, Wei Rong
 def waiting_time_func(queue_number):
     calculated_time = queue_number * 5
     hours = calculated_time // 60
@@ -124,7 +125,7 @@ def waiting_time_func(queue_number):
     return hours, minutes
 
 
-# Feature F: Prints store opening hours
+# Feature F: Prints store opening hours, Marcus
 def operating_hours_func():
     today_store_func()
     user_store_choice = input("Which store's operating hours would you like to check? ")
@@ -133,7 +134,7 @@ def operating_hours_func():
             print(user_store_choice + " is open on " + rows[2])
 
 
-# Resets csv file to today's date
+# Resets csv file to today's date, Wei Rong
 def datecsvchecker():
     now_date = datetime.datetime.now()
     current_date = now_date.strftime('%d:%m:%Y')
@@ -146,7 +147,7 @@ def datecsvchecker():
             csv_voucherwrite.close()
 
 
-# Checks whether user has already claimed voucher for the day
+# Checks whether user has already claimed voucher for the day, Wei Rong
 def voucher_check(user_name):
     claimed_flag = 0  # Flag to verify whether user has already claimed voucher
     lines = [line.rstrip('\n') for line in open('data/claimedvoucher.txt')]
@@ -165,7 +166,7 @@ def voucher_check(user_name):
         return "You have already claimed your voucher for today.\n\n Press /start to return to main menu"
 
 
-# Returns catch of the day item and price
+# Returns catch of the day item and price, Xiao Wei
 def catchoftheday_func():
     catchoftheday_dict = {
         "0": ["KFC Potato Bowl", "images/Food/potatobowl.jpg", "$1.49"],
@@ -183,7 +184,7 @@ def catchoftheday_func():
     return bot_photo, bot_response
 
 
-# Returns day as integer from date
+# Returns day as integer from date, Marcus
 def usertime_store_func(bot_day):
     today_stores = []
     for rows in stores_opened:
@@ -192,7 +193,7 @@ def usertime_store_func(bot_day):
     return today_stores
 
 
-# Returns random voucher
+# Returns random voucher, Wei Rong
 def send_voucher_path(number):
     with open('data/vouchers.csv') as vouchersCheck:
         reader = csv.DictReader(vouchersCheck)
@@ -201,7 +202,7 @@ def send_voucher_path(number):
                 return str("images/Vouchers/voucher"+rows['VoucherPath'])  # Returns voucher path
 
 
-# Returns menu items according to date, timeperiod and stall
+# Returns menu items according to date, timeperiod and stall, Marcus
 def user_menu_input_parser(user_store_choice, user_day, user_timeperiod):
     store_menu = ""
     for row in menu:
