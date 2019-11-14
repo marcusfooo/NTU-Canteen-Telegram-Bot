@@ -79,7 +79,7 @@ def today_store_func():
     return today_stores
 
 
-# Parses user store input, Xiao Wei
+# Parses user store input, Marcus
 def menu_input_parser(user_store_choice):
     time_period = time_check(current_time)  # Checks for current time_period: Breakfast/ Lunch/ Dinner/ Closed
     shop_list = list(today_store_func())
