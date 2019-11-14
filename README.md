@@ -15,6 +15,9 @@ under /venv for the grader's convenience when loading the Python PATH.
 
 Modules used include : csv, datetime, random, pyTelegramBotAPI
 
+Do install the pyTelegramBotAPI module @ https://github.com/eternnoir/pyTelegramBotAPI
+Alternatively you may set the PATH to the venv
+
 ########################################################################
 
 We have also attached the rubric along with the relevant functions for easier grading:
