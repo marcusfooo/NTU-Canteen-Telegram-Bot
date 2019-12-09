@@ -5,7 +5,7 @@ from telebot.types import ReplyKeyboardRemove, ReplyKeyboardMarkup
 
 # Bot Settings
 
-TOKEN = '712534091:AAF1rfhpIucDsqvgujNxmCgRSDIZT8F9WZk'
+TOKEN = ''
 
 bot = telebot.TeleBot(TOKEN)
 
