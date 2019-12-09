@@ -7,13 +7,8 @@ from flask import Flask, request
 
 # Bot Settings
 
-<<<<<<< HEAD
-TOKEN = ''
 
-=======
-TOKEN = '712534091:AAF1rfhpIucDsqvgujNxmCgRSDIZT8F9WZk'
-server = Flask(__name__)
->>>>>>> 91514eceba06cafb3d93f446e9e8163ce3a5aa32
+TOKEN = ''
 bot = telebot.TeleBot(TOKEN)
 
 # UI inputs
@@ -271,27 +266,6 @@ def command_default(message):
     bot.send_message(message.chat.id, "I don't understand, please do try the command again."
                      + "\n\nPress /start to return to Main Menu.")
 
-<<<<<<< HEAD
-
-@server.route('/' + TOKEN, methods=['POST'])
-def getMessage():
-    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
-    return "!", 200
-
-
-@server.route("/")
-def webhook():
-    bot.remove_webhook()
-    bot.set_webhook(url='https://ntu-canteen-app.herokuapp.com/' + TOKEN)
-    return "!", 200
-
-
-if __name__ == "__main__":
-    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
-
 
 bot.infinity_polling()
 
-=======
-bot.infinity_polling()
->>>>>>> parent of 91f5190... Final
