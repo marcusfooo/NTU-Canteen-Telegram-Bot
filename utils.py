@@ -24,19 +24,17 @@ current_time = now.strftime('%H:%M:%S')
 current_time = datetime.datetime.strptime(current_time, '%H:%M:%S').time()
 
 
-# Specifically checks whether stall is opened at a specific time
 def time_close(stall, stall_day, user_time):
     stall_open_time = ''
     stall_closed_time = ''
     for rows in stores_opened:
         if stall == rows[1] and stall_day == int(rows[0]):
-            stall_open = float(rows[3])  # Converts opening time to float
-            stall_closed = float(rows[4])  # Converts closing time to float
-            stall_open_time = datetime.datetime.strptime(str(floor(stall_open)) + ":0:0", '%H:%M:%S').time()  # Converts to datetime format
-            stall_closed_time = datetime.datetime.strptime(str(ceil(stall_closed)) + ":0:0", '%H:%M:%S').time()  # Converts to datetime format
+            stall_open = float(rows[3])
+            stall_closed = float(rows[4])
+            stall_open_time = datetime.datetime.strptime(str(floor(stall_open)) + ":0:0", '%H:%M:%S').time()
+            stall_closed_time = datetime.datetime.strptime(str(ceil(stall_closed)) + ":0:0", '%H:%M:%S').time()
             break
 
-    # Returns status of stall with given time
     if not(stall_open_time <= user_time <= stall_closed_time):
         return 'Closed'
 
